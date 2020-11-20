@@ -35,8 +35,8 @@ public class RegisterManager {
         return null;
     }
 
-    public Balance getBalance(Long registerId) {
-        return findRegisterOrException(registerId).getBalance();
+    public Register getBalance(Long registerId) {
+        return findRegisterOrException(registerId);
     }
 
 

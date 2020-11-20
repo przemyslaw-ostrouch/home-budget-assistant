@@ -18,8 +18,8 @@ class RegisterManagerTest extends Specification {
         def result = registerManager.getBalance(1L)
 
         then:
-        result.value == 1000
-        result.currency == MoneyValue.Currency.PLN
+        result.balance.value == 1000
+        result.balance.currency == MoneyValue.Currency.PLN
     }
 
     def "should fail when Register account doesnt exist"() {

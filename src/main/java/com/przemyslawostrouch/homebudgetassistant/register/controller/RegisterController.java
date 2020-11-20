@@ -14,8 +14,8 @@ public class RegisterController {
 
     private final RegisterManager registerManager;
 
-    @GetMapping("/{registerId}/balance")
-    public Balance getRegisterBalance(@PathVariable Long registerId){
+    @GetMapping("/{registerId}")
+    public Register getRegisterBalance(@PathVariable Long registerId){
         return registerManager.getBalance(registerId);
     }
 
