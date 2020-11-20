@@ -1,4 +1,14 @@
 package com.przemyslawostrouch.homebudgetassistant.register.dto;
 
-public class TransferValue extends MoneyValue {
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@AllArgsConstructor
+public class TransferValue {
+    private final MoneyValue moneyValue;
 }
+

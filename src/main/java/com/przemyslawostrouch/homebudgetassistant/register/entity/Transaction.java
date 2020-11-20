@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Getter
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
@@ -16,3 +17,4 @@ public class Transaction {
     private TransferValue transferValue;
     private LocalDateTime transactionDateTime;
 }
+
