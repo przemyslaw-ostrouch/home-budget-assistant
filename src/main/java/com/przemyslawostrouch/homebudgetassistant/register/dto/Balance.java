@@ -1,21 +1,23 @@
 package com.przemyslawostrouch.homebudgetassistant.register.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
+@Setter
+@Getter
 @Embeddable
 @NoArgsConstructor
-public class Balance extends MoneyValue {
+@AllArgsConstructor
+public class Balance {
 
-    @Builder
-    private Balance(BigDecimal value, Currency currency) {
-        super(value, currency);
-    }
+    private BigDecimal value;
 
     public void recharge(BigDecimal rechargeAmount){
-        setValue(getValue().add(rechargeAmount));
+        setValue(value.add(rechargeAmount));
     }
 }

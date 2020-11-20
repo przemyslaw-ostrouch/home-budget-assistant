@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Entity
@@ -20,4 +21,8 @@ public class Register {
     private String name;
     @Embedded
     private Balance balance;
+
+    public BigDecimal getBalanceValue(){
+        return balance.getValue();
+    }
 }

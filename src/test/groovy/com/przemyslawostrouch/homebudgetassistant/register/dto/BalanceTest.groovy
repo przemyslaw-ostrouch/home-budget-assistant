@@ -6,10 +6,7 @@ class BalanceTest extends Specification {
 
     def 'should add recharge current account'() {
         given:
-        Balance balance = Balance.builder()
-                .currency(MoneyValue.Currency.PLN)
-                .value(BigDecimal.valueOf(1000))
-                .build()
+        Balance balance = new Balance(BigDecimal.valueOf(1000))
 
         when:
         balance.recharge(BigDecimal.valueOf(2000))

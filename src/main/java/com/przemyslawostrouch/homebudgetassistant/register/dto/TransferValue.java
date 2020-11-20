@@ -1,14 +1,17 @@
 package com.przemyslawostrouch.homebudgetassistant.register.dto;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Embeddable;
+import java.math.BigDecimal;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@Embeddable
 @AllArgsConstructor
+@NoArgsConstructor
 public class TransferValue {
-    private final MoneyValue moneyValue;
+    private BigDecimal value;
 }
 

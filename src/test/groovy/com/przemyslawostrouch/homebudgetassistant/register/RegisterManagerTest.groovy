@@ -1,7 +1,6 @@
 package com.przemyslawostrouch.homebudgetassistant.register
 
 import com.przemyslawostrouch.homebudgetassistant.register.dto.Balance
-import com.przemyslawostrouch.homebudgetassistant.register.dto.MoneyValue
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register
 import spock.lang.Specification
 
@@ -10,7 +9,8 @@ class RegisterManagerTest extends Specification {
     def "should return correct account balance"() {
         given:
         RegisterRepository registerRepository = Stub(RegisterRepository.class)
-        RegisterManager registerManager = new RegisterManager(registerRepository)
+        RegisterFinder registerFinder = new RegisterFinder(registerRepository)
+        RegisterManager registerManager = new RegisterManager(registerRepository, registerFinder)
         Register registerToReturn = createMockRegister()
         registerRepository.findById(1L) >> Optional.of(registerToReturn)
 
@@ -19,13 +19,13 @@ class RegisterManagerTest extends Specification {
 
         then:
         result.balance.value == 1000
-        result.balance.currency == MoneyValue.Currency.PLN
     }
 
     def "should fail when Register account doesnt exist"() {
         given:
         RegisterRepository registerRepository = Stub(RegisterRepository.class)
-        RegisterManager registerManager = new RegisterManager(registerRepository)
+        RegisterFinder registerFinder = new RegisterFinder(registerRepository)
+        RegisterManager registerManager = new RegisterManager(registerRepository, registerFinder)
         registerRepository.findById(1L) >> Optional.empty()
 
         when:
@@ -39,14 +39,7 @@ class RegisterManagerTest extends Specification {
         Register.builder()
                 .id(1L)
                 .name('Wallet')
-                .balance(createMockBalance())
-                .build()
-    }
-
-    static Balance createMockBalance() {
-        Balance.builder()
-                .value(BigDecimal.valueOf(1000))
-                .currency(MoneyValue.Currency.PLN)
+                .balance(new Balance(BigDecimal.valueOf(1000)))
                 .build()
     }
 }
