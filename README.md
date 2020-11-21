@@ -9,6 +9,8 @@
     * GET all registers status
     * PUT To recharge register
     * POST to transfer money between acounts
+* [Tests](#test)
+* [Database](#database)
 ## Introduction
 This demo application was designed to help manage home budget. 
 
@@ -177,3 +179,24 @@ example Transfer transaction result:
     "transactionDateTime": "2020-11-21T17:47:37.55926"
 }
 ```
+### Test:
+To run test use IDE:
+```$xslt
+click on groovy test package and run all
+```
+or go to test class and run specific test by using play button.
+
+To run tests from command line please use below command:
+```$xslt
+gradle test
+```
+### Database:
+
+DB in use H2.
+
+**IMPORTANT**:
+
+Please be aware test database is completely separated from "production" database with different creation strategy (DB in memory, create-drop).
+On some integration tests it is droped and created one more time.
+
+Application DB is set as file DB. After shutting down the application previous action performed on DB are still valid (db strategy update)
