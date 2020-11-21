@@ -1,8 +1,11 @@
 package com.przemyslawostrouch.homebudgetassistant.register;
 
+import com.przemyslawostrouch.homebudgetassistant.exception.IncorrectRegisterBalanceException;
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferRequest;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Transaction;
+import com.przemyslawostrouch.homebudgetassistant.register.repository.RegisterRepository;
+import com.przemyslawostrouch.homebudgetassistant.register.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
@@ -19,11 +22,15 @@ public class TransferManager {
         Register fromRegister = registerFinder.findRegisterOrException(transferRequest.getFromRegisterId());
         Register toRegister = registerFinder.findRegisterOrException(transferRequest.getToRegisterId());
         BigDecimal valueToTransfer = transferRequest.getTransferValue();
+        return doTransactionOrException(transferRequest, fromRegister, toRegister, valueToTransfer);
+    }
+
+    private Transaction doTransactionOrException(TransferRequest transferRequest, Register fromRegister, Register toRegister, BigDecimal valueToTransfer) {
         if (isBalanceEnough(transferRequest, fromRegister)) {
             makeTransfer(fromRegister, toRegister, valueToTransfer);
             return saveTransaction(transferRequest, fromRegister, toRegister);
         } else {
-            throw new RuntimeException("Not enough amount of money");
+            throw new IncorrectRegisterBalanceException("Not enough amount of money");
         }
     }
 

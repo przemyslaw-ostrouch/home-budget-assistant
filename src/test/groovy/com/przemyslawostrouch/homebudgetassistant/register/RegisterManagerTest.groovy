@@ -1,45 +1,39 @@
 package com.przemyslawostrouch.homebudgetassistant.register
 
+
 import com.przemyslawostrouch.homebudgetassistant.register.dto.Balance
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register
+import com.przemyslawostrouch.homebudgetassistant.register.repository.RegisterRepository
 import spock.lang.Specification
 
 class RegisterManagerTest extends Specification {
 
     def "should return correct account balance"() {
         given:
+        def registers = []
         RegisterRepository registerRepository = Stub(RegisterRepository.class)
         RegisterFinder registerFinder = new RegisterFinder(registerRepository)
         RegisterManager registerManager = new RegisterManager(registerRepository, registerFinder)
-        Register registerToReturn = createMockRegister()
-        registerRepository.findById(1L) >> Optional.of(registerToReturn)
+        Register firstRegister = createMockRegister(1L, BigDecimal.valueOf(100))
+        Register secondRegister = createMockRegister(1L, BigDecimal.valueOf(100))
+        Register thirdRegister = createMockRegister(1L, BigDecimal.valueOf(100))
+        registers << firstRegister << secondRegister << thirdRegister
+
+        registerRepository.findAll() >> registers
 
         when:
-        def result = registerManager.getBalance(1L)
+        def result = registerManager.getAll()
 
         then:
-        result.balance.value == 1000
+        result.size() == 3
+        result.containsAll(registers)
     }
 
-    def "should fail when Register account doesnt exist"() {
-        given:
-        RegisterRepository registerRepository = Stub(RegisterRepository.class)
-        RegisterFinder registerFinder = new RegisterFinder(registerRepository)
-        RegisterManager registerManager = new RegisterManager(registerRepository, registerFinder)
-        registerRepository.findById(1L) >> Optional.empty()
-
-        when:
-        registerManager.getBalance(1L)
-
-        then:
-        thrown(RuntimeException)
-    }
-
-    static Register createMockRegister() {
+    static Register createMockRegister(Long id, BigDecimal balance) {
         Register.builder()
-                .id(1L)
-                .name('Wallet')
-                .balance(new Balance(BigDecimal.valueOf(1000)))
+                .id(id)
+                .name('name' + balance)
+                .balance(new Balance(balance))
                 .build()
     }
 }

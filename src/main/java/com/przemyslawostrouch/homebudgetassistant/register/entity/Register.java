@@ -1,6 +1,10 @@
 package com.przemyslawostrouch.homebudgetassistant.register.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.przemyslawostrouch.homebudgetassistant.register.dto.Balance;
+import com.przemyslawostrouch.homebudgetassistant.serializer.RegisterDeserializer;
+import com.przemyslawostrouch.homebudgetassistant.serializer.RegisterSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +18,8 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonSerialize(using = RegisterSerializer.class)
+@JsonDeserialize(using = RegisterDeserializer.class)
 public class Register {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

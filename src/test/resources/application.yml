@@ -3,16 +3,12 @@ server:
 
 spring:
   datasource:
-    url: "jdbc:h2:file:./budget-assistant"
+    url: "jdbc:h2:mem:./budget-assistant"
     username: "test"
     initialization-mode: always
   jpa:
     properties:
       hibernate:
         hbm2ddl:
-          auto: "update"
+          auto: "create-drop"
     show-sql: true
-  h2:
-    console:
-      enabled: true
-      path: "/console"

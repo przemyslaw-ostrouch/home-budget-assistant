@@ -1,9 +1,11 @@
 package com.przemyslawostrouch.homebudgetassistant.register;
 
+import com.przemyslawostrouch.homebudgetassistant.exception.RegisterNotFoundException;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register;
+import com.przemyslawostrouch.homebudgetassistant.register.repository.RegisterRepository;
 import lombok.AllArgsConstructor;
 
-import java.util.Optional;
+import java.util.List;
 
 @AllArgsConstructor
 public class RegisterFinder {
@@ -11,9 +13,13 @@ public class RegisterFinder {
     private final RegisterRepository registerRepository;
 
     Register findRegisterOrException(Long registerId) {
-        Optional<Register> optionalRegister = registerRepository.findById(registerId);
-        return optionalRegister.orElseThrow(
-                () -> new RuntimeException("Unexpected number of record exception")
-        );
+        return registerRepository.findById(registerId)
+                .orElseThrow(
+                        () -> new RegisterNotFoundException("Unexpected number of record exception")
+                );
+    }
+
+    List<Register> findAllRegisters() {
+        return registerRepository.findAll();
     }
 }
