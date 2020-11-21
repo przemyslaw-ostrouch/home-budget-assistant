@@ -62,6 +62,18 @@ if above doest work due to your default configuration use below:
 To call Rest controllers you can use client as Postman, or use curl.
 If you didn't change default host or ports (by `application.yml`) below examples will be valid.
 
+Instead of required and only possible 3 business endpoints there is also documentation of rest services available under the link:
+with the graphic interface:
+```$xslt
+http://localhost:8080/swagger-ui.html
+
+```
+json or yaml:
+```$xslt
+http://localhost:8080/v3/api-docs/
+http://localhost:8080/v3/api-docs/yaml
+```
+
 #####1) get status for all register with current balance:
 ```
 POSTMAN

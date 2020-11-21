@@ -35,6 +35,11 @@ dependencies {
     testImplementation('org.spockframework:spock-core:2.0-M4-groovy-3.0')
     testImplementation('org.spockframework:spock-spring:2.0-M4-groovy-3.0')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    //openapi
+    compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.0'
+    compile group: 'org.springdoc', name: 'springdoc-openapi-data-rest', version: '1.5.0'
+
 }
 
 test {
