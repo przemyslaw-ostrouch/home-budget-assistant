@@ -74,6 +74,8 @@ http://localhost:8080/v3/api-docs/
 http://localhost:8080/v3/api-docs/yaml
 ```
 
+Using graphic interface you can also check how the rest api works in other to use it please click on button `try it out` on specific rest endpoint
+
 #####1) get status for all register with current balance:
 ```
 POSTMAN
