@@ -19,7 +19,7 @@ This demo application was designed to help manage home budget.
  
 ## Technologies
 Project is created with:
-* Java 
+* Java (used OpenJDK Runtime Environment AdoptOpenJDK (build 11.0.9+11))
 * Groovy (tests + build.gradle)
 * Gradle
 * Spring Boot version 2.4.0
