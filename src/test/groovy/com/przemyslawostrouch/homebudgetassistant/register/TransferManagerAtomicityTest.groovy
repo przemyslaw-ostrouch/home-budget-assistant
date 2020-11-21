@@ -2,9 +2,8 @@ package com.przemyslawostrouch.homebudgetassistant.register
 
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferRequest
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue
-import com.przemyslawostrouch.homebudgetassistant.register.entity.Transaction
+import com.przemyslawostrouch.homebudgetassistant.register.entity.Register
 import com.przemyslawostrouch.homebudgetassistant.register.repository.RegisterRepository
-import com.przemyslawostrouch.homebudgetassistant.register.repository.TransactionRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
@@ -21,16 +20,15 @@ class TransferManagerAtomicityTest extends Specification {
     RegisterFinder registerFinder
 
     @Transactional
-    def 'should not commit transaction and throw runtimeExcaption'() {
+    def 'should not commit transaction and throw runtime exception'() {
 
         given:
-        TransactionRepository mockedTransactionRepo = Stub(TransactionRepository.class)
+        RegisterTransactionManager mockedTransactionManager = Stub(RegisterTransactionManager.class)
 
-        mockedTransactionRepo.save(_ as Transaction) >> {
+        mockedTransactionManager.saveTransactionBetweenAccounts(_ as TransferValue, _ as Register, _ as Register) >> {
             throw new RuntimeException()
         }
-
-        TransferManager transferManager = new TransferManager(registerRepository, mockedTransactionRepo, registerFinder)
+        TransferManager transferManager = new TransferManager(registerRepository, registerFinder, mockedTransactionManager)
         TransferRequest transferRequest = TransferRequest.builder()
                 .fromRegisterId(1L)
                 .toRegisterId(4L)
@@ -43,7 +41,7 @@ class TransferManagerAtomicityTest extends Specification {
         thrown(RuntimeException)
     }
 
-    def 'After fail during saving transaction full transaction should be roll backed'(){
+    def 'After fail during saving transaction full transaction should be roll backed'() {
         when:
         def firstBalance = registerRepository.findById(1L).get().balanceValue
         def secondBalance = registerRepository.findById(4L).get().balanceValue

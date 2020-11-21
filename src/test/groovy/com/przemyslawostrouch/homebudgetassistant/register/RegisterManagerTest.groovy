@@ -8,12 +8,13 @@ import spock.lang.Specification
 
 class RegisterManagerTest extends Specification {
 
-    def "should return correct account balance"() {
+    def "should return correct account balances"() {
         given:
         def registers = []
         RegisterRepository registerRepository = Stub(RegisterRepository.class)
         RegisterFinder registerFinder = new RegisterFinder(registerRepository)
-        RegisterManager registerManager = new RegisterManager(registerRepository, registerFinder)
+        RegisterTransactionManager transactionManager = Stub(RegisterTransactionManager.class)
+        RegisterManager registerManager = new RegisterManager(registerRepository, registerFinder, transactionManager)
         Register firstRegister = createMockRegister(1L, BigDecimal.valueOf(100))
         Register secondRegister = createMockRegister(1L, BigDecimal.valueOf(100))
         Register thirdRegister = createMockRegister(1L, BigDecimal.valueOf(100))

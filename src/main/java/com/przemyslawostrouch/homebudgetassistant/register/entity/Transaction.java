@@ -24,6 +24,12 @@ public class Transaction {
     private Register toRegister;
     @Embedded
     private TransferValue transferValue;
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
     private LocalDateTime transactionDateTime;
+
+    public enum TransactionType {
+        RECHARGE, TRANSFER;
+    }
 }
 
