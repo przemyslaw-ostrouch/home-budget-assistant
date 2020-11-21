@@ -16,7 +16,7 @@ public class RegisterManager {
     private final RegisterFinder registerFinder;
 
     public Register rechargeRegister(Long registerId, TransferValue transferValue) {
-        if (transferValue.getValue().compareTo(BigDecimal.ZERO) > 0) {
+        if (isRechargeValueValid(transferValue)) {
             Register foundRegister = registerFinder.findRegisterOrException(registerId);
             Balance currentBalance = foundRegister.getBalance();
             currentBalance.recharge(transferValue.getValue());
@@ -24,6 +24,10 @@ public class RegisterManager {
         } else {
             throw new IllegalArgumentException("Recharge value have to be more then 0");
         }
+    }
+
+    private boolean isRechargeValueValid(TransferValue transferValue) {
+        return transferValue.getValue().compareTo(BigDecimal.ZERO) > 0;
     }
 
     public List<Register> getAll() {

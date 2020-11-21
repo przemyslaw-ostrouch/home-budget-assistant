@@ -29,4 +29,8 @@ class HomeBudgetRestClient extends Specification {
         return restTemplate.exchange(host + port + url, HttpMethod.PUT, new HttpEntity<Object>(body), responseClassType)
     }
 
+    ResponseEntity post(String url, def body, Class responseClassType) {
+        return restTemplate.exchange(host + port + url, HttpMethod.POST, new HttpEntity<Object>(body), responseClassType)
+    }
+
 }

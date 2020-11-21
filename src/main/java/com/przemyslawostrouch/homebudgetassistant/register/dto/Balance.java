@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
@@ -15,9 +16,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Balance {
 
+    @Column(scale = 9, precision = 20)
     private BigDecimal value;
 
-    public void recharge(BigDecimal rechargeAmount){
+    public void recharge(BigDecimal rechargeAmount) {
         setValue(value.add(rechargeAmount));
     }
 }
