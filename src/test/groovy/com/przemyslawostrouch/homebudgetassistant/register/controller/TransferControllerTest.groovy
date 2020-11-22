@@ -29,7 +29,7 @@ class TransferControllerTest extends HomeBudgetRestClient {
 
         where:
         transferRequest        || fromRegisterName   || toRegisterName     || fromExpectedBalanceAfter || toExpectedBalaceAfter
-        smallAmountOfMoney()   || 'Wallet'           || 'Food expenses'    || 999.999999999            || 0.000000001
+        smallAmountOfMoney()   || 'Wallet'           || 'Food expenses'    || 999.99999                || 0.00001
         restMoneyTransfer()    || 'Wallet'           || 'Food expenses'    || 0                        || 1000
         fullMoneyTransfer()    || 'Savings'          || 'Insurance policy' || 0                        || 5000
         decimalMoneyTransfer() || 'Insurance policy' || 'Savings'          || 4989.1                   || 10.9
@@ -54,7 +54,7 @@ class TransferControllerTest extends HomeBudgetRestClient {
         TransferRequest.builder()
                 .fromRegisterId(1L)
                 .toRegisterId(4L)
-                .transfer(new TransferValue(BigDecimal.valueOf(0.000000001)))
+                .transfer(new TransferValue(BigDecimal.valueOf(0.00001)))
                 .build()
     }
 
@@ -62,7 +62,7 @@ class TransferControllerTest extends HomeBudgetRestClient {
         TransferRequest.builder()
                 .fromRegisterId(1L)
                 .toRegisterId(4L)
-                .transfer(new TransferValue(BigDecimal.valueOf(999.999999999)))
+                .transfer(new TransferValue(BigDecimal.valueOf(999.99999)))
                 .build()
     }
 

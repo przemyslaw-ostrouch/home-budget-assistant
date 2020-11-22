@@ -21,8 +21,7 @@ public class RegisterManager {
     public Register rechargeRegister(Long registerId, TransferValue transferValue) {
         if (isRechargeValueValid(transferValue)) {
             Register foundRegister = registerFinder.findRegisterOrException(registerId);
-            Balance currentBalance = foundRegister.getBalance();
-            currentBalance.recharge(transferValue.getValue());
+            foundRegister.getBalance().recharge(transferValue.getValue());
             Register registerAfterRecharge = registerRepository.save(foundRegister);
             registerTransactionManager.saveRechargeTransaction(registerAfterRecharge, transferValue);
             return registerAfterRecharge;

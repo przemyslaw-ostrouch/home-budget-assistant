@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Balance {
 
-    @Column(scale = 9, precision = 20)
+    @Column(scale = 6, precision = 12)
     private BigDecimal value;
 
     public void recharge(BigDecimal rechargeAmount) {
