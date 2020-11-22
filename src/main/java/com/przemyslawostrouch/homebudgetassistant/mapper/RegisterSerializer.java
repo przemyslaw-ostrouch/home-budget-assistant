@@ -1,4 +1,4 @@
-package com.przemyslawostrouch.homebudgetassistant.serializer;
+package com.przemyslawostrouch.homebudgetassistant.mapper;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

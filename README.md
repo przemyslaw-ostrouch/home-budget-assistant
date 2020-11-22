@@ -114,15 +114,15 @@ example result:
 #####2) To recharge register:
 ```
 POSTMAN
-method: PUT
-url: http://localhost:8080/registers/{registerId}
+method: POST
+url: http://localhost:8080/recharges
 body - raw - json:
 
 {
-    "value": 1000
+    "toRegisterId": "1",
+    "transfer": 10
 }
 ```
-where `{registerId}` is specific register id to recharge. By default at application start up there are 4 registers:
 ```$xslt
 'Wallet' -> with Id 1
 'Savings'-> with Id 2
@@ -131,10 +131,11 @@ where `{registerId}` is specific register id to recharge. By default at applicat
 ```    
 or curl command from terminal:
 ```$xslt
-curl --location --request PUT 'http://localhost:8080/registers/1' \
+curl --location --request POST 'http://localhost:8080/recharges' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "value": 1000
+    "toRegisterId": "1",
+    "transfer": 10
 }'
 ```
 example result:
@@ -153,11 +154,9 @@ url: http://localhost:8080/transfers
 body - raw - json:
 
 {
-    "fromRegisterId": 1,
-    "toRegisterId": 4,
-    "transfer": {
-        "value": 200
-    }
+    "fromRegisterId": 4,
+    "toRegisterId": 1,
+    "transfer": 4130
 }
 ```
 or curl command from terminal:
@@ -165,11 +164,9 @@ or curl command from terminal:
 curl --location --request POST 'http://localhost:8080/transfers' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "fromRegisterId": 1,
-    "toRegisterId": 4,
-    "transfer": {
-        "value": 200
-    }
+    "fromRegisterId": 4,
+    "toRegisterId": 1,
+    "transfer": 4130
 }'
 ```
 example Transfer transaction result:

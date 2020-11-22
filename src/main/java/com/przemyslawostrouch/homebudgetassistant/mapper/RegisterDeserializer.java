@@ -1,7 +1,6 @@
-package com.przemyslawostrouch.homebudgetassistant.serializer;
+package com.przemyslawostrouch.homebudgetassistant.mapper;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -21,7 +20,7 @@ public class RegisterDeserializer extends StdDeserializer<Register> {
     }
 
     @Override
-    public Register deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Register deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
         Long id = node.get("id").asLong();
         String name = node.get("name").asText();

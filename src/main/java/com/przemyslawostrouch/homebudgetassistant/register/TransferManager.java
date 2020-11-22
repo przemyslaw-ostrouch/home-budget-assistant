@@ -28,7 +28,7 @@ public class TransferManager {
             makeTransfer(fromRegister, toRegister, transfer);
             return registerTransactionManager.saveTransactionBetweenAccounts(transfer, fromRegister, toRegister);
         } else {
-            throw new IncorrectRegisterBalanceException("Not enough amount of money");
+            throw new IncorrectRegisterBalanceException("Not enough amount of money, debit not possible");
         }
     }
 
