@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 @AllArgsConstructor
-public class RegisterFinder {
+class RegisterFinder {
 
     private final RegisterRepository registerRepository;
 

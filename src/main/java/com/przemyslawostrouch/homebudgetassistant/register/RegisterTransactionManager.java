@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @AllArgsConstructor
-public class RegisterTransactionManager {
+class RegisterTransactionManager {
     private final TransactionRepository transactionRepository;
 
     Transaction saveTransactionBetweenAccounts(TransferValue transfer, Register fromRegister, Register toRegister) {
