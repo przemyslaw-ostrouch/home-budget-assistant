@@ -15,8 +15,6 @@ class TransferManagerAtomicityTest extends Specification {
 
     @Autowired
     RegisterRepository registerRepository
-    @Autowired
-    RegisterFinder registerFinder
 
     @Transactional
     def 'should not commit transaction and throw runtime exception'() {
@@ -27,7 +25,7 @@ class TransferManagerAtomicityTest extends Specification {
         mockedTransactionManager.saveTransactionBetweenAccounts(_ as TransferValue, _ as Register, _ as Register) >> {
             throw new RuntimeException()
         }
-        TransferManager transferManager = new TransferManager(registerRepository, registerFinder, mockedTransactionManager)
+        TransferManager transferManager = new TransferManager(registerRepository, new RegisterFinder(registerRepository), mockedTransactionManager)
         TransferRequest transferRequest = TransferRequest.builder()
                 .fromRegisterId(1L)
                 .toRegisterId(4L)
