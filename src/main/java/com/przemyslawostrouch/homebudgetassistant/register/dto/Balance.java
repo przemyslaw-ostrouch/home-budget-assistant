@@ -18,8 +18,4 @@ public class Balance {
 
     @Column(scale = 6, precision = 12)
     private BigDecimal value;
-
-    public void recharge(BigDecimal rechargeAmount) {
-        setValue(value.add(rechargeAmount));
-    }
 }

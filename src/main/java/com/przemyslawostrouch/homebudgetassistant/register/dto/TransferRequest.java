@@ -13,4 +13,8 @@ public class TransferRequest {
     private Long fromRegisterId;
     private Long toRegisterId;
     private TransferValue transfer;
+
+    public void validateTransfer() {
+        transfer.validate();
+    }
 }

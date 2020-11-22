@@ -1,6 +1,5 @@
 package com.przemyslawostrouch.homebudgetassistant.register;
 
-import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferRequest;
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Transaction;
@@ -14,7 +13,7 @@ import java.time.ZoneOffset;
 public class RegisterTransactionManager {
     private final TransactionRepository transactionRepository;
 
-    public Transaction saveTransactionBetweenAccounts(TransferValue transfer, Register fromRegister, Register toRegister) {
+    Transaction saveTransactionBetweenAccounts(TransferValue transfer, Register fromRegister, Register toRegister) {
         Transaction transaction = Transaction.builder()
                 .fromRegister(fromRegister)
                 .toRegister(toRegister)
@@ -25,7 +24,7 @@ public class RegisterTransactionManager {
         return transactionRepository.save(transaction);
     }
 
-    public void saveRechargeTransaction(Register toRegister, TransferValue transferValue) {
+    void saveRechargeTransaction(Register toRegister, TransferValue transferValue) {
         Transaction transaction = Transaction.builder()
                 .toRegister(toRegister)
                 .transferValue(transferValue)

@@ -6,6 +6,7 @@ spring:
     url: "jdbc:h2:file:./budget-assistant"
     username: "test"
     initialization-mode: always
+    continue-on-error: true
   jpa:
     properties:
       hibernate:
