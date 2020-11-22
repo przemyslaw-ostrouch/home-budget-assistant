@@ -11,7 +11,7 @@ import spock.lang.Stepwise
 
 @Stepwise
 @SpringBootTest
-class TransferManagerAtomicityTest extends Specification {
+class TransferManagerFailedTest extends Specification {
 
     @Autowired
     RegisterRepository registerRepository
@@ -40,8 +40,8 @@ class TransferManagerAtomicityTest extends Specification {
 
     def 'After fail during saving transaction full transaction should be roll backed'() {
         when:
-        def firstBalance = registerRepository.findById(1L).get().balanceValue
-        def secondBalance = registerRepository.findById(4L).get().balanceValue
+        def firstBalance = registerRepository.findById(1L).get().balance.value
+        def secondBalance = registerRepository.findById(4L).get().balance.value
 
         then:
         firstBalance == 1000

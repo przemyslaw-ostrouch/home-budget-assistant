@@ -23,14 +23,14 @@ class RegisterTransactionManager {
         return transactionRepository.save(transaction);
     }
 
-    void saveRechargeTransaction(Register toRegister, TransferValue transferValue) {
+    Transaction saveRechargeTransaction(Register toRegister, TransferValue transferValue) {
         Transaction transaction = Transaction.builder()
                 .toRegister(toRegister)
                 .transferValue(transferValue)
                 .transactionDateTime(LocalDateTime.now(ZoneOffset.UTC))
                 .transactionType(Transaction.TransactionType.RECHARGE)
                 .build();
-        transactionRepository.save(transaction);
+        return transactionRepository.save(transaction);
     }
 
 }

@@ -20,7 +20,7 @@ public class RechargeRequestSerializer extends StdSerializer<RechargeRequest> {
     public void serialize(RechargeRequest rechargeRequest, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
         gen.writeNumberField("toRegisterId", rechargeRequest.getToRegisterId());
-        gen.writeNumberField("transfer", rechargeRequest.getTransferValue());
+        gen.writeNumberField("transfer", rechargeRequest.getTransfer().getValue());
         gen.writeEndObject();
     }
 }

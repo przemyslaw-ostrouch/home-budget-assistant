@@ -1,4 +1,4 @@
-package com.przemyslawostrouch.homebudgetassistant.register.controller;
+package com.przemyslawostrouch.homebudgetassistant.register;
 
 import com.przemyslawostrouch.homebudgetassistant.register.RegisterManager;
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue;
@@ -11,12 +11,12 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/registers")
-public class RegisterController {
+class RegisterController {
 
     private final RegisterManager registerManager;
 
     @GetMapping
-    public List<Register> getAll() {
+    List<Register> getAll() {
         return registerManager.getAll();
     }
 }

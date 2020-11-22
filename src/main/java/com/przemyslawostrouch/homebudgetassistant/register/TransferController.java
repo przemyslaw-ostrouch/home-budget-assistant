@@ -1,4 +1,4 @@
-package com.przemyslawostrouch.homebudgetassistant.register.controller;
+package com.przemyslawostrouch.homebudgetassistant.register;
 
 import com.przemyslawostrouch.homebudgetassistant.register.TransferManager;
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferRequest;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/transfers")
-public class TransferController {
+class TransferController {
 
     private final TransferManager transferManager;
 
     @PostMapping
-    public Transaction makeTransfer(@RequestBody TransferRequest transferRequest){
+    Transaction makeTransfer(@RequestBody TransferRequest transferRequest) {
         return transferManager.transfer(transferRequest);
     }
 }

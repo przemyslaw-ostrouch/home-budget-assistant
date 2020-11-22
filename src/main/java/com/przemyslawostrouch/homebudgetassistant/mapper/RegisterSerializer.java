@@ -21,7 +21,7 @@ public class RegisterSerializer extends StdSerializer<Register> {
         gen.writeStartObject();
         gen.writeNumberField("id", register.getId());
         gen.writeStringField("name", register.getName());
-        gen.writeNumberField("balance", register.getBalanceValue());
+        gen.writeNumberField("balance", register.getBalance().getValue());
         gen.writeEndObject();
     }
 }

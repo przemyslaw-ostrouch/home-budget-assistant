@@ -7,8 +7,6 @@ import com.przemyslawostrouch.homebudgetassistant.mapper.RechargeRequestSerializ
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 @Getter
 @AllArgsConstructor
 @JsonSerialize(using = RechargeRequestSerializer.class)
@@ -16,10 +14,6 @@ import java.math.BigDecimal;
 public class RechargeRequest {
     private final Long toRegisterId;
     private final TransferValue transfer;
-
-    public BigDecimal getTransferValue(){
-        return transfer.getValue();
-    }
 
     public void validateTransferValue(){
         transfer.validate();

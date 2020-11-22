@@ -2,10 +2,10 @@ package com.przemyslawostrouch.homebudgetassistant.register.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.przemyslawostrouch.homebudgetassistant.register.dto.Balance;
-import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue;
+import com.przemyslawostrouch.homebudgetassistant.exception.IncorrectRegisterBalanceException;
 import com.przemyslawostrouch.homebudgetassistant.mapper.RegisterDeserializer;
 import com.przemyslawostrouch.homebudgetassistant.mapper.RegisterSerializer;
+import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,23 +29,27 @@ public class Register {
     @Embedded
     private Balance balance;
 
-    public BigDecimal getBalanceValue() {
-        return balance.getValue();
+    public void validateBalance(TransferValue transfer) {
+        if (balance.getValue().compareTo(transfer.getValue()) < 0) {
+            throw new IncorrectRegisterBalanceException("Not enough amount of money, debit not possible");
+        }
     }
 
-    public boolean isBalanceEnough(TransferValue transfer) {
-        return getBalanceValue().compareTo(transfer.getValue()) >= 0;
+    public Register reduceBalanceValue(TransferValue transfer) {
+        BigDecimal newBalance = balance.getValue().subtract(transfer.getValue());
+        return new Register(
+                id,
+                name,
+                new Balance(newBalance)
+        );
     }
 
-    public void reduceBalanceValue(TransferValue transfer) {
-        balance.setValue(getBalanceValue().subtract(transfer.getValue()));
-    }
-
-    public void increaseBalanceValue(TransferValue transfer) {
-        balance.setValue(getBalanceValue().add(transfer.getValue()));
-    }
-
-    public void recharge(BigDecimal rechargeAmount) {
-        balance.setValue(getBalanceValue().add(rechargeAmount));
+    public Register recharge(TransferValue rechargeAmount) {
+        BigDecimal newBalance = balance.getValue().add(rechargeAmount.getValue());
+        return new Register(
+                id,
+                name,
+                new Balance(newBalance)
+        );
     }
 }

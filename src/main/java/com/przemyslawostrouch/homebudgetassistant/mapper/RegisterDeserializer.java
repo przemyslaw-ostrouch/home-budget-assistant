@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.przemyslawostrouch.homebudgetassistant.register.dto.Balance;
+import com.przemyslawostrouch.homebudgetassistant.register.entity.Balance;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register;
 
 import java.io.IOException;

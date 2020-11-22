@@ -9,14 +9,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
-public class TransferManager {
+class TransferManager {
 
     private final RegisterRepository registerRepository;
     private final RegisterFinder registerFinder;
     private final RegisterTransactionManager registerTransactionManager;
 
     @Transactional
-    public Transaction transfer(TransferRequest transferRequest) {
+    Transaction transfer(TransferRequest transferRequest) {
         transferRequest.validateTransfer();
         Register fromRegister = registerFinder.findRegisterOrException(transferRequest.getFromRegisterId());
         Register toRegister = registerFinder.findRegisterOrException(transferRequest.getToRegisterId());
@@ -24,18 +24,13 @@ public class TransferManager {
     }
 
     private Transaction makeTransactionOrException(TransferValue transfer, Register fromRegister, Register toRegister) {
-        if (fromRegister.isBalanceEnough(transfer)) {
-            makeTransfer(fromRegister, toRegister, transfer);
-            return registerTransactionManager.saveTransactionBetweenAccounts(transfer, fromRegister, toRegister);
-        } else {
-            throw new IncorrectRegisterBalanceException("Not enough amount of money, debit not possible");
-        }
+        fromRegister.validateBalance(transfer);
+        makeTransfer(fromRegister, toRegister, transfer);
+        return registerTransactionManager.saveTransactionBetweenAccounts(transfer, fromRegister, toRegister);
     }
 
     private void makeTransfer(Register fromRegister, Register toRegister, TransferValue transfer) {
-        fromRegister.reduceBalanceValue(transfer);
-        toRegister.increaseBalanceValue(transfer);
-        registerRepository.save(fromRegister);
-        registerRepository.save(toRegister);
+        registerRepository.save(fromRegister.reduceBalanceValue(transfer));
+        registerRepository.save(toRegister.recharge(transfer));
     }
 }

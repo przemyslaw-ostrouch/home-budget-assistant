@@ -1,7 +1,7 @@
 package com.przemyslawostrouch.homebudgetassistant.register
 
 
-import com.przemyslawostrouch.homebudgetassistant.register.dto.Balance
+import com.przemyslawostrouch.homebudgetassistant.register.entity.Balance
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register
 import spock.lang.Specification
 
@@ -9,7 +9,6 @@ class RegisterManagerTest extends Specification {
 
     def "should return correct account balances"() {
         given:
-        def registers = []
         RegisterRepository registerRepository = Stub(RegisterRepository.class)
         RegisterFinder registerFinder = new RegisterFinder(registerRepository)
         RegisterTransactionManager transactionManager = Stub(RegisterTransactionManager.class)
@@ -17,7 +16,7 @@ class RegisterManagerTest extends Specification {
         Register firstRegister = createMockRegister(1L, BigDecimal.valueOf(100))
         Register secondRegister = createMockRegister(1L, BigDecimal.valueOf(100))
         Register thirdRegister = createMockRegister(1L, BigDecimal.valueOf(100))
-        registers << firstRegister << secondRegister << thirdRegister
+        def registers = [firstRegister, secondRegister, thirdRegister]
 
         registerRepository.findAll() >> registers
 

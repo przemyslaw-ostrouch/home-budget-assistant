@@ -1,27 +1,25 @@
 package com.przemyslawostrouch.homebudgetassistant.register.controller
 
-
 import com.przemyslawostrouch.homebudgetassistant.register.dto.RechargeRequest
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue
-import com.przemyslawostrouch.homebudgetassistant.register.entity.Register
+import com.przemyslawostrouch.homebudgetassistant.register.entity.Transaction
 import org.apache.http.HttpStatus
 
 class RechargeControllerTest extends HomeBudgetRestClient {
 
     def 'should recharge register'() {
         when:
-        def result = post("/recharges", rechargeRequest, Register.class)
+        def result = post("/recharges", rechargeRequest, Transaction.class)
 
         then:
         result.getStatusCode().value() == HttpStatus.SC_OK
-        result.body.id == expectedId
-        result.body.name == expectedName
-        result.body.balance.value == expectedBalance
+        result.body.toRegister.name == expectedName
+        result.body.toRegister.balance.value == expectedBalance
 
         where:
-        rechargeRequest                                                     || expectedId || expectedName || expectedBalance || expectedStatus
-        new RechargeRequest(1L, new TransferValue(BigDecimal.valueOf(1)))   || 1L         || 'Wallet'     || 1001.00         || HttpStatus.SC_OK
-        new RechargeRequest(2L, new TransferValue(BigDecimal.valueOf(200))) || 2L         || 'Savings'    || 5200.00         || HttpStatus.SC_OK
+        rechargeRequest                                                     || expectedName || expectedBalance || expectedStatus
+        new RechargeRequest(1L, new TransferValue(BigDecimal.valueOf(1)))   || 'Wallet'     || 1001.00         || HttpStatus.SC_OK
+        new RechargeRequest(2L, new TransferValue(BigDecimal.valueOf(200))) || 'Savings'    || 5200.00         || HttpStatus.SC_OK
     }
 
     def 'should fail when recharge value is lower or equal 0'() {
