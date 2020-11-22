@@ -1,8 +1,7 @@
 package com.przemyslawostrouch.homebudgetassistant.register;
 
-import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue;
+import com.przemyslawostrouch.homebudgetassistant.register.dto.RechargeRequest;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register;
-import com.przemyslawostrouch.homebudgetassistant.register.repository.RegisterRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +15,12 @@ public class RegisterManager {
     private final RegisterTransactionManager registerTransactionManager;
 
     @Transactional
-    public Register rechargeRegister(Long registerId, TransferValue transferValue) {
-        transferValue.validate();
-        Register foundRegister = registerFinder.findRegisterOrException(registerId);
-        foundRegister.recharge(transferValue.getValue());
+    public Register rechargeRegister(RechargeRequest rechargeRequest) {
+        rechargeRequest.validateTransferValue();
+        Register foundRegister = registerFinder.findRegisterOrException(rechargeRequest.getToRegisterId());
+        foundRegister.recharge(rechargeRequest.getTransferValue());
         Register registerAfterRecharge = registerRepository.save(foundRegister);
-        registerTransactionManager.saveRechargeTransaction(registerAfterRecharge, transferValue);
+        registerTransactionManager.saveRechargeTransaction(registerAfterRecharge, rechargeRequest.getTransfer());
         return registerAfterRecharge;
     }
 

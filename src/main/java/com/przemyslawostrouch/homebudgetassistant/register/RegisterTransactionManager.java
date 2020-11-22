@@ -3,7 +3,6 @@ package com.przemyslawostrouch.homebudgetassistant.register;
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Transaction;
-import com.przemyslawostrouch.homebudgetassistant.register.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;

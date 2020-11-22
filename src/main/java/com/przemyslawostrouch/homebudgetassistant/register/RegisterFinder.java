@@ -2,7 +2,6 @@ package com.przemyslawostrouch.homebudgetassistant.register;
 
 import com.przemyslawostrouch.homebudgetassistant.exception.RegisterNotFoundException;
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register;
-import com.przemyslawostrouch.homebudgetassistant.register.repository.RegisterRepository;
 import lombok.AllArgsConstructor;
 
 import java.util.List;

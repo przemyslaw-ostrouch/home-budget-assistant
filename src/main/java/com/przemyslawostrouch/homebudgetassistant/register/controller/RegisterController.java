@@ -19,10 +19,5 @@ public class RegisterController {
     public List<Register> getAll() {
         return registerManager.getAll();
     }
-
-    @PutMapping("/{registerId}")
-    public Register rechargeRegister(@PathVariable Long registerId, @RequestBody TransferValue transferValue) {
-        return registerManager.rechargeRegister(registerId, transferValue);
-    }
 }
 

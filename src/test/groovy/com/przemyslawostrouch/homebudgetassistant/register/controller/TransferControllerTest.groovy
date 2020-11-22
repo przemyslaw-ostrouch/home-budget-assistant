@@ -4,7 +4,9 @@ import com.przemyslawostrouch.homebudgetassistant.exception.IncorrectTransferVal
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferRequest
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Transaction
+import com.przemyslawostrouch.homebudgetassistant.register.RegisterRepository
 import org.apache.http.HttpStatus
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.annotation.DirtiesContext
 import spock.lang.Stepwise
 import spock.lang.Unroll
@@ -13,11 +15,14 @@ import spock.lang.Unroll
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class TransferControllerTest extends HomeBudgetRestClient {
 
+    @Autowired
+    RegisterRepository registerRepository
+
     @Unroll
     def 'should transfer money between registers'() {
         when:
+        def transferRequest = newTransferRequest(fromId, toId, transferValue)
         def result = post("/transfers", transferRequest, Transaction.class)
-        print(result.body)
 
         then:
         result.getStatusCode().value() == HttpStatus.SC_OK
@@ -27,12 +32,15 @@ class TransferControllerTest extends HomeBudgetRestClient {
         result.body.toRegister.balance.value == toExpectedBalaceAfter
         result.body.transactionDateTime != null
 
+        cleanup:
+        post("/transfers", newTransferRequest(toId, fromId, transferValue), Transaction.class)
+
         where:
-        transferRequest        || fromRegisterName   || toRegisterName     || fromExpectedBalanceAfter || toExpectedBalaceAfter
-        smallAmountOfMoney()   || 'Wallet'           || 'Food expenses'    || 999.99                || 0.01
-        restMoneyTransfer()    || 'Wallet'           || 'Food expenses'    || 0                        || 1000
-        fullMoneyTransfer()    || 'Savings'          || 'Insurance policy' || 0                        || 5000
-        decimalMoneyTransfer() || 'Insurance policy' || 'Savings'          || 4989.1                   || 10.9
+        fromId | toId | transferValue || fromRegisterName || toRegisterName     || fromExpectedBalanceAfter || toExpectedBalaceAfter
+        1L     | 4L   | 0.01          || 'Wallet'         || 'Food expenses'    || 999.99                   || 0.01
+        1L     | 4L   | 999.99        || 'Wallet'         || 'Food expenses'    || 0.01                     || 999.99
+        2L     | 3L   | 5000          || 'Savings'        || 'Insurance policy' || 0                        || 5000
+        2L     | 3L   | 10.9          || 'Savings'        || 'Insurance policy' || 4989.1                   || 10.9
     }
 
     @Unroll
@@ -47,42 +55,17 @@ class TransferControllerTest extends HomeBudgetRestClient {
         where:
         transferRequest         || expectedStatus
         negativeTransferValue() || HttpStatus.SC_INTERNAL_SERVER_ERROR
-
     }
 
-    def smallAmountOfMoney() {
+    static def newTransferRequest(fromId, toId, value) {
         TransferRequest.builder()
-                .fromRegisterId(1L)
-                .toRegisterId(4L)
-                .transfer(new TransferValue(BigDecimal.valueOf(0.01)))
+                .fromRegisterId(fromId)
+                .toRegisterId(toId)
+                .transfer(new TransferValue(BigDecimal.valueOf(value)))
                 .build()
     }
 
-    def restMoneyTransfer() {
-        TransferRequest.builder()
-                .fromRegisterId(1L)
-                .toRegisterId(4L)
-                .transfer(new TransferValue(BigDecimal.valueOf(999.99)))
-                .build()
-    }
-
-    def fullMoneyTransfer() {
-        TransferRequest.builder()
-                .fromRegisterId(2L)
-                .toRegisterId(3L)
-                .transfer(new TransferValue(BigDecimal.valueOf(5000)))
-                .build()
-    }
-
-    def decimalMoneyTransfer() {
-        TransferRequest.builder()
-                .fromRegisterId(3L)
-                .toRegisterId(2L)
-                .transfer(new TransferValue(BigDecimal.valueOf(10.9)))
-                .build()
-    }
-
-    def negativeTransferValue() {
+    static def negativeTransferValue() {
         TransferRequest.builder()
                 .fromRegisterId(3L)
                 .toRegisterId(2L)

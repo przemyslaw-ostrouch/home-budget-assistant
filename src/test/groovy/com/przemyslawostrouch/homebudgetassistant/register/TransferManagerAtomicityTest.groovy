@@ -3,7 +3,6 @@ package com.przemyslawostrouch.homebudgetassistant.register
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferRequest
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Register
-import com.przemyslawostrouch.homebudgetassistant.register.repository.RegisterRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional

@@ -1,6 +1,5 @@
 package com.przemyslawostrouch.homebudgetassistant.register.dto;
 
-import com.przemyslawostrouch.homebudgetassistant.exception.IncorrectTransferValueException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
