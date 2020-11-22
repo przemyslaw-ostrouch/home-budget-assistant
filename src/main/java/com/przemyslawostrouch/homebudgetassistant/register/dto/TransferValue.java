@@ -1,7 +1,5 @@
 package com.przemyslawostrouch.homebudgetassistant.register.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.przemyslawostrouch.homebudgetassistant.mapper.TransferSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +11,6 @@ import java.math.BigDecimal;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonDeserialize(using = TransferDeserializer.class)
-@JsonSerialize(using = TransferSerializer.class)
 public class TransferValue {
     private BigDecimal value;
 

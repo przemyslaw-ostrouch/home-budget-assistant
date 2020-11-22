@@ -7,18 +7,16 @@ import com.przemyslawostrouch.homebudgetassistant.mapper.TransferRequestSerializ
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @JsonSerialize(using = TransferRequestSerializer.class)
 @JsonDeserialize(using = TransferRequestDeserializer.class)
 public class TransferRequest {
-    private Long fromRegisterId;
-    private Long toRegisterId;
-    private TransferValue transfer;
+    private final Long fromRegisterId;
+    private final Long toRegisterId;
+    private final TransferValue transfer;
 
     public void validateTransfer() {
         transfer.validate();

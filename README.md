@@ -9,7 +9,7 @@
     * GET all registers status
     * PUT To recharge register
     * POST to transfer money between acounts
-* [Tests](#test)
+* [Tests + Jacoco test coverage report](#test)
 * [Database](#database)
 ## Introduction
 This demo application was designed to help manage home budget. 
@@ -64,12 +64,12 @@ If you didn't change default host or ports (by `application.yml`) below examples
 
 Instead of required and only possible 3 business endpoints there is also documentation of rest services available under the link:
 with the graphic interface:
-```$xslt
+```
 http://localhost:8080/swagger-ui.html
 
 ```
 json or yaml:
-```$xslt
+```
 http://localhost:8080/v3/api-docs/
 http://localhost:8080/v3/api-docs/yaml
 ```
@@ -83,7 +83,7 @@ method: GET
 url: http://localhost:8080/registers/
 ```    
 or curl command from terminal:
-```$xslt
+```
 curl --location --request GET 'http://localhost:8080/registers/' 
 ```
 example result:
@@ -123,14 +123,14 @@ body - raw - json:
     "transfer": 10
 }
 ```
-```$xslt
+```
 'Wallet' -> with Id 1
 'Savings'-> with Id 2
 'Insurance policy'-> with Id 3
 'Food expenses'-> with Id 4
 ```    
 or curl command from terminal:
-```$xslt
+```
 curl --location --request POST 'http://localhost:8080/recharges' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -139,7 +139,7 @@ curl --location --request POST 'http://localhost:8080/recharges' \
 }'
 ```
 example result:
-```$xslt
+```
 {
     "id": 1,
     "name": "Wallet",
@@ -160,7 +160,7 @@ body - raw - json:
 }
 ```
 or curl command from terminal:
-```$xslt
+```
 curl --location --request POST 'http://localhost:8080/transfers' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -170,7 +170,7 @@ curl --location --request POST 'http://localhost:8080/transfers' \
 }'
 ```
 example Transfer transaction result:
-```$xslt
+```
 {
     "id": 12,
     "fromRegister": {
@@ -192,15 +192,21 @@ example Transfer transaction result:
 ```
 ### Test:
 To run test use IDE:
-```$xslt
+```
 click on groovy test package and run all
 ```
 or go to test class and run specific test by using play button.
 
 To run tests from command line please use below command:
-```$xslt
+```
 gradle test
 ```
+
+To run Jacoco test coverage check:
+```
+gradle jacocoTestReport
+```
+Then navigate to build directory `build.jacoco.test.html`, localize `index.html` and open it in the browser
 ### Database:
 
 DB in use H2.

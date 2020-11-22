@@ -4,9 +4,7 @@ import com.przemyslawostrouch.homebudgetassistant.exception.IncorrectTransferVal
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferRequest
 import com.przemyslawostrouch.homebudgetassistant.register.dto.TransferValue
 import com.przemyslawostrouch.homebudgetassistant.register.entity.Transaction
-import com.przemyslawostrouch.homebudgetassistant.register.RegisterRepository
 import org.apache.http.HttpStatus
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.annotation.DirtiesContext
 import spock.lang.Stepwise
 import spock.lang.Unroll
@@ -14,9 +12,6 @@ import spock.lang.Unroll
 @Stepwise
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class TransferControllerTest extends HomeBudgetRestClient {
-
-    @Autowired
-    RegisterRepository registerRepository
 
     @Unroll
     def 'should transfer money between registers'() {
@@ -53,8 +48,9 @@ class TransferControllerTest extends HomeBudgetRestClient {
         result.getStatusCode().value() == expectedStatus
 
         where:
-        transferRequest         || expectedStatus
-        negativeTransferValue() || HttpStatus.SC_INTERNAL_SERVER_ERROR
+        transferRequest                    || expectedStatus
+        newTransferRequest(3L, 2L, -10)    || HttpStatus.SC_INTERNAL_SERVER_ERROR
+        newTransferRequest(1L, 2L, 100000) || HttpStatus.SC_INTERNAL_SERVER_ERROR
     }
 
     static def newTransferRequest(fromId, toId, value) {
@@ -62,14 +58,6 @@ class TransferControllerTest extends HomeBudgetRestClient {
                 .fromRegisterId(fromId)
                 .toRegisterId(toId)
                 .transfer(new TransferValue(BigDecimal.valueOf(value)))
-                .build()
-    }
-
-    static def negativeTransferValue() {
-        TransferRequest.builder()
-                .fromRegisterId(3L)
-                .toRegisterId(2L)
-                .transfer(new TransferValue(BigDecimal.valueOf(-10)))
                 .build()
     }
 }
